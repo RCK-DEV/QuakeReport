@@ -1,7 +1,9 @@
 package com.example.android.quakereport;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +30,10 @@ public class EarthQuakeArrayAdapter extends ArrayAdapter<Earthquake> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
         Earthquake earthQuake = getItem(position);
 
+        // Check if view already exists so that it can be reused. Else inflate new view.
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.earthquake_item, parent, false);
@@ -71,6 +75,17 @@ public class EarthQuakeArrayAdapter extends ArrayAdapter<Earthquake> {
 
         dateTextView.setText(String.format("%s", formattedDate));
         timeTextView.setText(String.format("%s", formattedTime));
+
+        // Set earthquake url for an implicit intent which will open a web browser app.
+       final Intent openWebBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(earthQuake.getUrl()));
+
+       // Set click-listener on current list item view.
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().startActivity(openWebBrowserIntent);
+            }
+        });
 
         return convertView;
     }
