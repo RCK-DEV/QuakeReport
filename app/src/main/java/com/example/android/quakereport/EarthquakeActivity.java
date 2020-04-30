@@ -15,11 +15,16 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EarthquakeActivity extends AppCompatActivity {
 
@@ -33,11 +38,23 @@ public class EarthquakeActivity extends AppCompatActivity {
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
+        // List of earthquake data instances.
+        final List<Earthquake> earthQuakes = QueryUtils.extractEarthquakes();
+
         // Create a new {@link ArrayAdapter} of earthquakes
         EarthQuakeArrayAdapter adapter = new EarthQuakeArrayAdapter(this, QueryUtils.extractEarthquakes());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
+
+        // Set click-listener for ListView which sends an implicit intent to open a web browser.
+        earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent openWebBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(earthQuakes.get(position).getUrl()));
+                startActivity(openWebBrowserIntent);
+            }
+        });
     }
 }

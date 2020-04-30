@@ -76,17 +76,6 @@ public class EarthQuakeArrayAdapter extends ArrayAdapter<Earthquake> {
         dateTextView.setText(String.format("%s", formattedDate));
         timeTextView.setText(String.format("%s", formattedTime));
 
-        // Set earthquake url for an implicit intent which will open a web browser app.
-       final Intent openWebBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(earthQuake.getUrl()));
-
-       // Set click-listener on current list item view.
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContext().startActivity(openWebBrowserIntent);
-            }
-        });
-
         return convertView;
     }
 
