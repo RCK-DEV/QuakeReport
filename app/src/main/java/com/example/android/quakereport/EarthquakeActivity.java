@@ -38,11 +38,8 @@ public class EarthquakeActivity extends AppCompatActivity {
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
-        // List of earthquake data instances.
-        final List<Earthquake> earthQuakes = QueryUtils.extractEarthquakes();
-
         // Create a new {@link ArrayAdapter} of earthquakes
-        EarthQuakeArrayAdapter adapter = new EarthQuakeArrayAdapter(this, QueryUtils.extractEarthquakes());
+        final EarthQuakeArrayAdapter adapter = new EarthQuakeArrayAdapter(this, QueryUtils.extractEarthquakes());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -52,7 +49,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent openWebBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(earthQuakes.get(position).getUrl()));
+                Intent openWebBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(adapter.getItem(position).getUrl()));
                 startActivity(openWebBrowserIntent);
             }
         });
